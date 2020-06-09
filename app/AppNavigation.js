@@ -16,6 +16,15 @@ const AppNavigation = () => {
         }}>
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Chat" component={ChatScreen} options={{
+                headerBackTitleVisible: false,
+                headerStyle: {
+                    backgroundColor: "#fff",
+                    borderBottomWidth: 0
+                },
+                headerTitleStyle: {
+                    display: "none"
+                },
+                headerLeft: renderHeaderLeft,
             }} />
         </Stack.Navigator>
     </NavigationContainer>;
