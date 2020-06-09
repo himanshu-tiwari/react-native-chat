@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import '@firebase/firestore'
 import { showMessage } from 'react-native-flash-message';
 import moment from 'moment';
+import { firebaseConfig } from './config.json';
 
 export const FireContext = createContext();
 
@@ -12,8 +13,7 @@ export const FireContextProvider = props => {
 
     const init = () => {
         if (!firebase.apps.length) {
-            firebase.initializeApp({
-            });
+            firebase.initializeApp(firebaseConfig);
         }
 
         setDb(firebase.firestore());
