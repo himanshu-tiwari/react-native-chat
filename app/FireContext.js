@@ -19,7 +19,6 @@ export const FireContextProvider = props => {
         setDb(firebase.firestore());
     };
 
-
     useEffect(() => {
         init();
     }, []);
@@ -75,6 +74,16 @@ export const FireContextProvider = props => {
                 message: error?.message ? error?.message : "Unable to signup! Check inputs!"
             });
             console.log(error);
+        });
+    };
+
+    const send = messages => {
+        messages.forEach(message => {
+            db.collection("messages").add({
+                text: message.text,
+                timestamp: moment().format("X"),
+                user: message.user,
+            });
         });
     };
 
