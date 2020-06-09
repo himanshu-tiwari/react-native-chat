@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>delightree.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>243EAA36A4D5774142AFF3298C82727F04542A1E</string>
+				<key>dateExpires</key>
+				<string>11/02/21</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>243EAA36A4D5774142AFF3298C82727F04542A1E</string>
+						<key>dateExpires</key>
+						<string>11/02/21</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>entitlements</key>
+					<dict>
+						<key>application-identifier</key>
+						<string>HN96V48C87.com.delightree.development.OneSignalNotificationServiceExtension</string>
+						<key>aps-environment</key>
+						<string>production</string>
+						<key>com.apple.developer.team-identifier</key>
+						<string>HN96V48C87</string>
+						<key>com.apple.security.application-groups</key>
+						<array>
+							<string>group.com.delightree.development.onesignal</string>
+						</array>
+						<key>get-task-allow</key>
+						<false/>
+					</dict>
+					<key>name</key>
+					<string>OneSignalNotificationServiceExtension.appex</string>
+					<key>profile</key>
+					<dict>
+						<key>UUID</key>
+						<string>d32be93e-36ef-47b2-b6a7-c444b13aa1e6</string>
+						<key>name</key>
+						<string>OneSignal Provisioning Profile</string>
+					</dict>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>HN96V48C87</string>
+						<key>name</key>
+						<string>Delightree Inc</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>HN96V48C87.com.delightree.development</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>HN96V48C87</string>
+				<key>com.apple.security.application-groups</key>
+				<array>
+					<string>group.com.delightree.development.onesignal</string>
+				</array>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>Delightree.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>1d358ca9-4ddb-4699-a176-8fab823b0646</string>
+				<key>name</key>
+				<string>Delightree Provisioning profile</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>HN96V48C87</string>
+				<key>name</key>
+				<string>Delightree Inc</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
