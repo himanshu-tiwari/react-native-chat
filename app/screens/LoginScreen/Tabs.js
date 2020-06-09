@@ -1,6 +1,8 @@
 import React, { useCallback, useState, useContext } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TextInput } from 'react-native';
 import { FireContext } from '../../FireContext';
+import AppBtn from '../../components/AppBtn';
+import AppText from '../../components/AppText';
 
 const Tabs = props => {
     const { signIn, signUp } = useContext(FireContext);
@@ -38,7 +40,7 @@ const Tabs = props => {
     )
 
     return <View style={styles.contentContainer}>
-        <Text style={styles.header}>{ props.type }</Text>
+        <AppText style={styles.header}>{ props.type }</AppText>
         
         <TextInput
             style={[styles.input, emailFocused && styles.focused]}
@@ -61,9 +63,9 @@ const Tabs = props => {
         />
 
         <View style={styles.submitContainer}>
-            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+            <AppBtn style={styles.submit} onPress={handleSubmit}>
                 <Image source={require('../../assets/icons/arrow.png')} style={styles.arrow} />
-            </TouchableOpacity>
+            </AppBtn>
         </View>
     </View>;
 };
