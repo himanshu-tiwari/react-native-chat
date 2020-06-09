@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { TouchableWithoutFeedback, Animated, ActivityIndicator } from 'react-native';
 import { HiddenAppText } from './AppText';
+import NetInfo from "@react-native-community/netinfo";
+import { showMessage } from 'react-native-flash-message';
 
 const AppBtn = props => {
     const [scale] = useState(new Animated.Value(1));
@@ -31,8 +33,26 @@ const AppBtn = props => {
         [props.disabled, scale, props.duration]
     );
 
+    const handlePress = useCallback(
+        () => {
+            NetInfo.fetch().then(state => {
+                console.log(state);
+
+                if (state.isConnected) {
+                    props.onPress();
+                } else {
+                    showMessage({
+                        type: "danger",
+                        message: "You don't have a stable internet connection! Stay connected to have the optimal experience!"
+                    });
+                }
+            });
+        },
+        [props.onPress]
+    );
+
     return <TouchableWithoutFeedback
-        onPress={props.onPress}
+        onPress={handlePress}
         onPressIn={animateIn}
         onPressOut={animateOut}
     >
