@@ -1,7 +1,13 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, Platform, KeyboardAvoidingView } from 'react-native';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 const ChatScreen = props => {
     const [messages, setMessages] = useState([]);
+
+    const chat = <GiftedChat messages={messages} onSend={send} user={props.route?.params} />;
+
 
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} enabled>{
