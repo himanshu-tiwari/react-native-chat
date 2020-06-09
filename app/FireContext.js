@@ -77,3 +77,25 @@ export const FireContextProvider = props => {
             console.log(error);
         });
     };
+
+    const parse = message => {
+        console.log({ message: message.data() });
+        return ({
+            _id: message.id,
+            user: message.data()?.user,
+            text: message.data()?.text,
+            timestamp: moment(message.data()?.timestamp, "X").format("X"),
+            createdAt: moment(message.data()?.timestamp, "X")
+        });
+    };
+
+    const get = callback => {
+        db.collection("messages").onSnapshot(querySnapshot => {
+            console.log("here");
+            callback(
+                querySnapshot.docs
+                    ?.map(parse)
+                    ?.sort((a, b) => moment(a?.createdAt).isBefore(b?.createdAt) ? 1 : -1)
+            );
+        });
+    };
