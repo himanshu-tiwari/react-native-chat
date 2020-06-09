@@ -1,12 +1,12 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, Platform, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { FireContext } from '../../FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChatScreen = props => {
     const [messages, setMessages] = useState([]);
-    const { uid, get, db, off, send } = useContext(FireContext);
+    const { get, send } = useContext(FireContext);
 
     useEffect(() => {
         get(setMessages);
