@@ -18,6 +18,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
             value={password}
             onChangeText={handlePasswordChange}
             placeholder="********"
+            passwordRules="required: upper; required: lower; required: digit; max-consecutive: 2; minlength: 8;"
             secureTextEntry={true}
         />
 
