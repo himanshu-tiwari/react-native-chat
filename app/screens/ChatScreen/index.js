@@ -8,6 +8,10 @@ const ChatScreen = props => {
     const [messages, setMessages] = useState([]);
     const { uid, get, db, off, send } = useContext(FireContext);
 
+    useEffect(() => {
+        get(setMessages);
+    }, []);
+
     const chat = <GiftedChat messages={messages} onSend={send} user={props.route?.params} />;
 
 
