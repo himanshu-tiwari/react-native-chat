@@ -1,5 +1,10 @@
 import React, { useCallback, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { FireContext } from '../../FireContext';
+
+const Tabs = props => {
+    const { signIn, signUp } = useContext(FireContext);
+
     const [email, setEmail] = useState("himanshu@delightree.com");
     const [password, setPassword] = useState("Abcd@1234");
 
