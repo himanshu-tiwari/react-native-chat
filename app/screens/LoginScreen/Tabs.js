@@ -3,6 +3,18 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
     const [email, setEmail] = useState("himanshu@delightree.com");
     const [password, setPassword] = useState("Abcd@1234");
 
+    const [emailFocused, setEmailFocused] = useState(false);
+    const [passwordFocused, setPasswordFocused] = useState(false);
+
+    const handleEmailChange = useCallback(email => setEmail(email), []);
+    const handlePasswordChange = useCallback(password => setPassword(password), []);
+
+    const handleEmailFocus = useCallback(() => setEmailFocused(true), []);
+    const handleEmailBlur = useCallback(() => setEmailFocused(false), []);
+
+    const handlePasswordFocus = useCallback(() => setPasswordFocused(true), []);
+    const handlePasswordBlur = useCallback(() => setPasswordFocused(false), []);
+
     return <View style={styles.contentContainer}>
         <Text style={styles.header}>{ props.type }</Text>
         
@@ -11,6 +23,8 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
             value={email}
             onChangeText={handleEmailChange}
             placeholder="himanshu@delightree.com"
+            onFocus={handleEmailFocus}
+            onBlur={handleEmailBlur}
         />
 
         <TextInput
@@ -20,6 +34,8 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
             placeholder="********"
             passwordRules="required: upper; required: lower; required: digit; max-consecutive: 2; minlength: 8;"
             secureTextEntry={true}
+            onFocus={handlePasswordFocus}
+            onBlur={handlePasswordBlur}
         />
 
         <View style={styles.submitContainer}>
