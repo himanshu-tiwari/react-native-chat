@@ -1,9 +1,24 @@
 import React, { useState, memo, useCallback } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import Tabs from './Tabs';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 const windowWidth = Dimensions.get("window").width;
 
+const initialLayout = { width: windowWidth };
+
 const LoginScreen = props => {
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'login', title: 'Login' },
+        { key: 'signup', title: 'Signup' },
+    ]);
+    
+    const renderScene = SceneMap({
+        login: useCallback(() => <Tabs type="Login" navigation={props.navigation} />, []),
+        signup: useCallback(() => <Tabs type="Signup" navigation={props.navigation} />, []),
+    });
+    
     return <View style={styles.container}>
         <View style={[styles.circle, {
             width: 1.75*windowWidth,
@@ -17,6 +32,13 @@ const LoginScreen = props => {
             <Image source={require('../../assets/icons/coffee.png')} style={styles.logo} />
         </View>
 
+        <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+            tabBarPosition="bottom"
+        />
     </View>;
 };
 
