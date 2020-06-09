@@ -36,8 +36,6 @@ const AppBtn = props => {
     const handlePress = useCallback(
         () => {
             NetInfo.fetch().then(state => {
-                console.log(state);
-
                 if (state.isConnected) {
                     props.onPress();
                 } else {
