@@ -7,6 +7,8 @@ const windowWidth = Dimensions.get("window").width;
 
 const initialLayout = { width: windowWidth };
 
+const renderTabBar = props => <TabBar {...props} style={{ backgroundColor: "#9075e3" }} />
+
 const LoginScreen = props => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -38,6 +40,7 @@ const LoginScreen = props => {
             onIndexChange={setIndex}
             initialLayout={initialLayout}
             tabBarPosition="bottom"
+            renderTabBar={renderTabBar}
         />
     </View>;
 };
