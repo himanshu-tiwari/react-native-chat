@@ -99,3 +99,10 @@ export const FireContextProvider = props => {
             );
         });
     };
+
+    const off = () => db.off();
+
+    return <FireContext.Provider value={{ send, parse, get, off, db, uid, signIn, signOut, signUp }}>{
+        props.children
+    }</FireContext.Provider>
+};
