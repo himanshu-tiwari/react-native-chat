@@ -56,12 +56,17 @@ const AppRecorder = props => {
                     if (status?.state !== "success") {
                         showMessage({ type: "danger", message: "Could not upload the file to firebase storage!" });
                     } else {
-                        
+                        props.send([{
+                            _id: props.messageIdGenerator(),
+                            text: "",
+                            audio: `gs://${ status?.metadata?.bucket }/${ status?.metadata?.fullPath }`,
+                            user: props.user
+                        }]);
                     }
                 }
             }
         },
-        [currentTime],
+        [currentTime, props.send, props.user, props.messageIdGenerator, props.setUploading],
     );
     
     useEffect(() => {
