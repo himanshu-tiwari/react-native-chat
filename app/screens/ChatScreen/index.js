@@ -8,7 +8,6 @@ import NetInfo from "@react-native-community/netinfo";
 import AppRecorder from './AppRecorder';
 
 const ChatScreen = props => {
-    const [messages, setMessages] = useState([]);
     const { get, send } = useContext(FireContext);
 
     const [messages, setMessages] = useState([]);
