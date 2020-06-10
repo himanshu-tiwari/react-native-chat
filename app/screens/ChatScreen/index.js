@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { showMessage } from 'react-native-flash-message';
 import NetInfo from "@react-native-community/netinfo";
 import AppRecorder from './AppRecorder';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid'
 import OverlayLoader from '../../components/OverlayLoader';
 import AppAudioPlayer from './AppAudioPlayer';
