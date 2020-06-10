@@ -5,6 +5,7 @@ import '@react-native-firebase/firestore';
 import { showMessage } from 'react-native-flash-message';
 import moment from 'moment';
 import { firebaseConfig } from './config.json';
+import { isObject, isNonEmptyString } from './helpers/checks';
 
 export const FireContext = createContext();
 
@@ -117,11 +118,21 @@ export const FireContextProvider = props => {
         [],
     );
 
+    const messageFilter = useCallback(
+        message => (
+            isNonEmptyString(message?.id) &&
+            isObject(message?.data()?.user) &&
+            isNonEmptyString(message?.data()?.timestamp)
+        ),
+        [],
+    );
+
     const get = useCallback(
         callback => {
             db.collection("messages").onSnapshot(querySnapshot => {
                 callback(
                     querySnapshot.docs
+                        ?.filter(messageFilter)
                         ?.map(parse)
                         ?.sort((a, b) => moment(a?.createdAt).isBefore(b?.createdAt) ? 1 : -1)
                 );
