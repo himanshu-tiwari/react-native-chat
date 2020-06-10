@@ -4,6 +4,7 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import ChatScreen from './screens/ChatScreen';
 import LoginScreen from './screens/LoginScreen';
 import HeaderLeft from './screens/ChatScreen/HeaderLeft';
+import ChannelsScreen from './screens/ChannelsScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const AppNavigation = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
         }}>
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Channels" component={ChannelsScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Chat" component={ChatScreen} options={{
                 headerBackTitleVisible: false,
                 headerStyle: {
