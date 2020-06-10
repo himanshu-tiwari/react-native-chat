@@ -32,13 +32,23 @@ const ChatScreen = props => {
         [],
     );
 
+    const renderActions = useCallback(
+        () => <AppRecorder
+            send={handleSend}
+            user={props.route?.params}
+            messageIdGenerator={uuidv4}
+            setUploading={setUploading}
+        />,
+        [handleSend, props.route?.params],
+    );
+
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
             <GiftedChat
                 messages={messages}
                 onSend={handleSend}
                 user={props.route?.params}
-                renderActions={() => <AppRecorder send={handleSend} user={props.route?.params} />}
+                renderActions={renderActions}
             />
         </KeyboardAvoidingView>
     </SafeAreaView>;
