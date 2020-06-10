@@ -139,14 +139,18 @@ export const FireContextProvider = props => {
     );
 
     const get = useCallback(
-        callback => {
-            db.collection("messages").onSnapshot(querySnapshot => {
-                callback(
-                    querySnapshot.docs
-                        ?.filter(messageFilter)
-                        ?.map(parse)
-                        ?.sort(messageSorter)
-                );
+        (name, callback) => {
+            db.collection(name).onSnapshot(querySnapshot => {
+                if (name === "messages") {
+                    callback(
+                        querySnapshot.docs
+                            ?.filter(messageFilter)
+                            ?.map(parse)
+                            ?.sort(messageSorter)
+                    );
+                } else {
+                    callback(querySnapshot.docs);
+                }
             });
         },
         [db?.collection, parse],
