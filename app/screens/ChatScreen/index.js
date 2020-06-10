@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { showMessage } from 'react-native-flash-message';
 import NetInfo from "@react-native-community/netinfo";
 import AppRecorder from './AppRecorder';
+import { v4 as uuidv4 } from 'uuid'
 
 const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
@@ -49,6 +50,7 @@ const ChatScreen = props => {
                 onSend={handleSend}
                 user={props.route?.params}
                 renderActions={renderActions}
+                messageIdGenerator={uuidv4}
             />
         </KeyboardAvoidingView>
     </SafeAreaView>;
