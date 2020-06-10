@@ -5,6 +5,12 @@ import { FireContext } from '../FireContext';
 
 const ChannelsScreen = props => {
     const { get } = useContext(FireContext);
+
+    const [channels, setChannels] = useState([]);
+
+    useEffect(() => {
+        get("channels", setChannels);
+    }, []);
 };
 
 export default ChannelsScreen;
