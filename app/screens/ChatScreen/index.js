@@ -19,8 +19,8 @@ const ChatScreen = props => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        get("messages", setMessages);
-    }, []);
+        get("messages", setMessages, props.route?.params?.channelId);
+    }, [props.route?.params?.channelId]);
 
     const handleSend = useCallback(
         messages => {
