@@ -127,6 +127,11 @@ export const FireContextProvider = props => {
         [],
     );
 
+    const messageSorter = useCallback(
+        (a, b) => moment(a?.createdAt).isBefore(b?.createdAt) ? 1 : -1,
+        [],
+    );
+
     const get = useCallback(
         callback => {
             db.collection("messages").onSnapshot(querySnapshot => {
@@ -134,7 +139,7 @@ export const FireContextProvider = props => {
                     querySnapshot.docs
                         ?.filter(messageFilter)
                         ?.map(parse)
-                        ?.sort((a, b) => moment(a?.createdAt).isBefore(b?.createdAt) ? 1 : -1)
+                        ?.sort(messageSorter)
                 );
             });
         },
