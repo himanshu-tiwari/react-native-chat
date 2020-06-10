@@ -6,8 +6,6 @@ import { showMessage } from 'react-native-flash-message';
 import storage from '@react-native-firebase/storage';
 import { isNonEmptyString, isObject } from '../../helpers/checks';
 
-const audioPath = AudioUtils.DocumentDirectoryPath + '/test.aac';
-
 const AppRecorder = props => {
     const [hasPermission, setHasPermission] = useState(false);
     const [currentTime, setCurrentTime] = useState(0.0);
@@ -15,15 +13,16 @@ const AppRecorder = props => {
     const [recording, setRecording] = useState(false);
     const [stoppedRecording, setStoppedRecording] = useState(false);
     const [paused, setPaused] = useState(false);
+    const [id] = useState(props.messageIdGenerator());
 
     const prepareRecordingPath = useCallback(
-        () => AudioRecorder.prepareRecordingAtPath(audioPath, {
+        () => AudioRecorder.prepareRecordingAtPath(`${ AudioUtils.DocumentDirectoryPath }/${ id }.aac`, {
             SampleRate: 22050,
             Channels: 1,
             AudioQuality: "Low",
             AudioEncoding: "aac"
         }),
-        []
+        [id]
     );
 
     let reference;
@@ -46,7 +45,7 @@ const AppRecorder = props => {
 
             if (didSucceed && isNonEmptyString(fileName)) {
                 props.setUploading(true);
-                reference = storage().ref(fileName);
+                reference = storage().ref(id);
 
                 if (isObject(reference)) {
                     // uploads file
@@ -57,16 +56,16 @@ const AppRecorder = props => {
                         showMessage({ type: "danger", message: "Could not upload the file to firebase storage!" });
                     } else {
                         props.send([{
-                            _id: props.messageIdGenerator(),
+                            _id: id,
                             text: "",
-                            audio: `gs://${ status?.metadata?.bucket }/${ status?.metadata?.fullPath }`,
+                            audio: status?.metadata?.fullPath,
                             user: props.user
                         }]);
                     }
                 }
             }
         },
-        [currentTime, props.send, props.user, props.messageIdGenerator, props.setUploading],
+        [currentTime, props.send, props.user, id, props.setUploading],
     );
     
     useEffect(() => {
