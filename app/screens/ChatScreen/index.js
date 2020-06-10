@@ -11,21 +11,9 @@ const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
 
     const [messages, setMessages] = useState([]);
-    const [displayExtraInputs, setDisplayExtraInputs] = useState(false);
-
-    const _keyboardDidShow = useCallback(() => setDisplayExtraInputs(true), []);
-    const _keyboardDidHide = useCallback(() => setDisplayExtraInputs(false), []);
 
     useEffect(() => {
         get(setMessages);
-
-        Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-        Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
-
-        return () => {
-            Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-            Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-        };
     }, []);
 
     const handleSend = useCallback(
@@ -44,14 +32,14 @@ const ChatScreen = props => {
         [],
     );
 
-
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
-            <GiftedChat messages={messages} onSend={handleSend} user={props.route?.params} />
-
-            {
-                displayExtraInputs && <AppRecorder />
-            }
+            <GiftedChat
+                messages={messages}
+                onSend={handleSend}
+                user={props.route?.params}
+                renderActions={() => <AppRecorder send={handleSend} user={props.route?.params} />}
+            />
         </KeyboardAvoidingView>
     </SafeAreaView>;
 };
