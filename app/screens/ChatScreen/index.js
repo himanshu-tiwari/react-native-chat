@@ -11,9 +11,22 @@ const ChatScreen = props => {
     const [messages, setMessages] = useState([]);
     const { get, send } = useContext(FireContext);
 
+    const [messages, setMessages] = useState([]);
     const [displayExtraInputs, setDisplayExtraInputs] = useState(false);
+
+    const _keyboardDidShow = useCallback(() => setDisplayExtraInputs(true), []);
+    const _keyboardDidHide = useCallback(() => setDisplayExtraInputs(false), []);
+
     useEffect(() => {
         get(setMessages);
+
+        Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+        Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+        return () => {
+            Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+            Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+        };
     }, []);
 
     const handleSend = useCallback(
