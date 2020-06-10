@@ -92,14 +92,10 @@ export const FireContextProvider = props => {
     );
 
     const send = useCallback(
-        messages => {
-            messages.forEach(message => {
-                db.collection("messages").add({
-                    text: message.text,
-                    timestamp: moment().format("X"),
-                    user: message.user,
-                    ...(isNonEmptyString(message.audio) ? { audio: message.audio } : {})
-                });
+        (doc, name) => {
+            db.collection(name).add({
+                ...doc,
+                timestamp: moment().format("X")
             });
         },
         [db?.collection],
