@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { StyleSheet, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { FireContext } from '../../FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { StyleSheet, View, Platform, Image } from 'react-native';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import AppBtn from '../../components/AppBtn';
-import AppText from '../../components/AppText';
 import { showMessage } from 'react-native-flash-message';
 import storage from '@react-native-firebase/storage';
 import { isNonEmptyString, isObject } from '../../helpers/checks';
@@ -141,10 +140,6 @@ const AppRecorder = props => {
     return <View style={styles.container}>
         <View style={styles.controls}>
             <AppBtn style={styles.button} onPress={recording ? stop : record}>
-                {/* <AppText style={recording ? styles.activeButtonText : styles.buttonText}>
-                    RECORD
-                </AppText> */}
-
                 {
                     recording
                         ? <View style={styles.stop}>
