@@ -22,7 +22,7 @@ const Tabs = props => {
     const handlePasswordFocus = useCallback(() => setPasswordFocused(true), []);
     const handlePasswordBlur = useCallback(() => setPasswordFocused(false), []);
 
-    const goToChat = useCallback(data => props.navigation?.navigate("Chat", {
+    const goToChannels = useCallback(data => props.navigation?.navigate("Channels", {
         _id: data?.user?.uid,
         email: data?.user?.email,
         name: data?.user?.email?.split("@")[0]
@@ -31,9 +31,9 @@ const Tabs = props => {
     const handleSubmit = useCallback(
         () => {
             if (props.type === "Login") {
-                signIn({ email, password }, goToChat);
+                signIn({ email, password }, goToChannels);
             } else {
-                signUp({ email, password }, goToChat);
+                signUp({ email, password }, goToChannels);
             }
         },
         [props.type, email, password, signIn, signUp],
