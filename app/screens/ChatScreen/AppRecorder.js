@@ -4,6 +4,8 @@ import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import AppBtn from '../../components/AppBtn';
 import AppText from '../../components/AppText';
 import { showMessage } from 'react-native-flash-message';
+import storage from '@react-native-firebase/storage';
+import { isNonEmptyString, isObject } from '../../helpers/checks';
 
 const audioPath = AudioUtils.DocumentDirectoryPath + '/test.aac';
 
@@ -15,7 +17,6 @@ const AppRecorder = props => {
     const [stoppedRecording, setStoppedRecording] = useState(false);
     const [paused, setPaused] = useState(false);
 
-    console.log({ props });
     const prepareRecordingPath = useCallback(
         () => AudioRecorder.prepareRecordingAtPath(audioPath, {
             SampleRate: 22050,
@@ -26,8 +27,10 @@ const AppRecorder = props => {
         []
     );
 
+    let reference;
+    let fileName;
     const finishRecording = useCallback(
-        (didSucceed, filePath, fileSize) => {
+        async (didSucceed, filePath, fileSize) => {
             setFinished(didSucceed);
 
             console.log(
@@ -39,6 +42,23 @@ const AppRecorder = props => {
                     fileSize || 0
                 } bytes`
             );
+
+            fileName = filePath?.split('/')?.reverse()[0];
+
+            if (didSucceed && isNonEmptyString(fileName)) {
+                reference = storage().ref(fileName);
+
+                if (isObject(reference)) {
+                    // uploads file
+                    const status = await reference.putFile(filePath);
+                    
+                    if (status?.state !== "success") {
+                        showMessage({ type: "danger", message: "Could not upload the file to firebase storage!" });
+                    } else {
+                        
+                    }
+                }
+            }
         },
         [currentTime],
     );
@@ -136,17 +156,6 @@ const AppRecorder = props => {
                         />
                 }
             </AppBtn>
-
-            {/* <AppBtn style={styles.button} onPress={stop}>
-                <AppText style={styles.buttonText}>
-                    STOP
-                </AppText>
-            </AppBtn> */}
-
-            {/* {this._renderButton("PLAY", () => {this._play()} )} */}
-            {/* {this._renderButton("STOP", () => {this.stop()} )} */}
-            {/* {this._renderButton("PAUSE", () => {this._pause()} )} */}
-            {/* {this._renderPauseButton(() => {this.state.paused ? this._resume() : this._pause()})} */}
         </View>
     </View>;
 };
