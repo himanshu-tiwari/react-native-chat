@@ -10,6 +10,7 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid'
 import OverlayLoader from '../../components/OverlayLoader';
 import AppAudioPlayer from './AppAudioPlayer';
+import { isNonEmptyString } from '../../helpers/checks';
 
 const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
@@ -22,10 +23,15 @@ const ChatScreen = props => {
     }, []);
 
     const handleSend = useCallback(
-        message => {
+        messages => {
             NetInfo.fetch().then(state => {
                 if (state.isConnected) {
-                    send(message);
+                    send({
+                        text: messages[0].text,
+                        user: messages[0].user,
+                        channelId: props.route?.params?.channelId,
+                        ...(isNonEmptyString(messages[0].audio) ? { audio: messages[0].audio } : {})
+                    }, "messages");
                 } else {
                     showMessage({
                         type: "danger",
@@ -34,7 +40,7 @@ const ChatScreen = props => {
                 }
             });
         },
-        [],
+        [props.route?.params?.channelId],
     );
 
     const renderActions = useCallback(
