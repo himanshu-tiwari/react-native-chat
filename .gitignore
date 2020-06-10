@@ -60,3 +60,6 @@ buck-out/
 
 # config
 /app/config.json
+
+# release
+/android/app/release
