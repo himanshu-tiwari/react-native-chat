@@ -12,7 +12,7 @@ const HeaderLeft = props => {
         [signOut, props.onPress]
     );
 
-    return <TouchableOpacity onPress={backToLogin}>
+    return <TouchableOpacity onPress={props.toLogin ? backToLogin : props.onPress}>
         <Image source={require("../../assets/icons/back.png")} style={styles.icon} />
     </TouchableOpacity>;
 };
