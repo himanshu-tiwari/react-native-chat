@@ -144,55 +144,25 @@ const AppRecorder = props => {
         [recording, Platform.OS, finishRecording],
     );
 
-    return <View style={styles.container}>
-        <View style={styles.controls}>
-            <AppBtn style={styles.button} onPress={recording ? stop : record}>
-                {
-                    recording
-                        ? <View style={styles.stop}>
-                            <View style={styles.stopInternal}></View>
-                        </View>
-                        : <Image
-                            source={require("../../assets/icons/microphone.png")}
-                            style={styles.microphone}
-                        />
-                }
-            </AppBtn>
-        </View>
-    </View>;
+    return <AppBtn style={styles.button} onPress={recording ? stop : record}>
+        {
+            recording
+                ? <View style={styles.stop}>
+                    <View style={styles.stopInternal}></View>
+                </View>
+                : <Image
+                    source={require("../../assets/icons/microphone.png")}
+                    style={styles.microphone}
+                />
+        }
+    </AppBtn>;
 };
 
 export default AppRecorder;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 0.15,
-        // backgroundColor: "#ddd",
-    },
-    controls: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1,
-    },
-    progressText: {
-        // paddingTop: 50,
-        fontSize: 14,
-        color: "#fff"
-    },
     button: {
         padding: 20
-    },
-    disabledButtonText: {
-        color: "#eee"
-    },
-    buttonText: {
-        fontSize: 14,
-        color: "#fff"
-    },
-    activeButtonText: {
-        fontSize: 14,
-        color: "#B81F00"
     },
     microphone: {
         width: 20,
