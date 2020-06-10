@@ -133,23 +133,13 @@ export const FireContextProvider = props => {
         [],
     );
 
-    const messageSorter = useCallback(
-        (a, b) => moment(a?.createdAt).isBefore(b?.createdAt) ? 1 : -1,
-        [],
-    );
-
     const get = useCallback(
         (name, callback) => {
-            db.collection(name).onSnapshot(querySnapshot => {
+            db.collection(name).orderBy("timestamp", "desc").onSnapshot(querySnapshot => {
                 if (name === "messages") {
-                    callback(
-                        querySnapshot.docs
-                            ?.filter(messageFilter)
-                            ?.map(parse)
-                            ?.sort(messageSorter)
-                    );
+                    callback(querySnapshot.docs?.filter(messageFilter)?.map(parse));
                 } else {
-                    callback(querySnapshot.docs);
+                    callback(querySnapshot.docs?.map(parse));
                 }
             });
         },
