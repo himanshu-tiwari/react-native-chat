@@ -5,11 +5,13 @@ import { FireContext } from '../../FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showMessage } from 'react-native-flash-message';
 import NetInfo from "@react-native-community/netinfo";
+import AppRecorder from './AppRecorder';
 
 const ChatScreen = props => {
     const [messages, setMessages] = useState([]);
     const { get, send } = useContext(FireContext);
 
+    const [displayExtraInputs, setDisplayExtraInputs] = useState(false);
     useEffect(() => {
         get(setMessages);
     }, []);
@@ -34,6 +36,10 @@ const ChatScreen = props => {
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
             <GiftedChat messages={messages} onSend={handleSend} user={props.route?.params} />
+
+            {
+                displayExtraInputs && <AppRecorder />
+            }
         </KeyboardAvoidingView>
     </SafeAreaView>;
 };
