@@ -106,18 +106,17 @@ export const FireContextProvider = props => {
     );
 
     const parse = useCallback(
-        message => {
-            console.log({ message: message.data() });
+        doc => {
+            console.log({ doc: doc.data() });
             return ({
-                _id: message.id,
-                user: message.data()?.user,
-                text: message.data()?.text,
-                timestamp: moment(message.data()?.timestamp, "X").format("X"),
-                createdAt: moment(message.data()?.timestamp, "X"),
+                _id: doc.id,
+                ...doc?.data(),
                 ...(
-                    isNonEmptyString(message.data()?.audio)
-                        ? { audio: message.data()?.audio }
-                        : {}
+                    isNonEmptyString(doc.data()?.timestamp)
+                        ? {
+                            timestamp: moment(doc.data()?.timestamp, "X").format("X"),
+                            createdAt: moment(doc.data()?.timestamp, "X")
+                        } : {}
                 )
             });
         },
