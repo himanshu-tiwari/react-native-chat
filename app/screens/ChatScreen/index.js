@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { StyleSheet, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { FireContext } from '../../FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,9 +32,9 @@ const ChatScreen = props => {
 
 
     return <SafeAreaView style={styles.safeAreaView}>
-        <KeyboardAvoidingView style={styles.flex} enabled>{
-            chat
-        }</KeyboardAvoidingView>
+        <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
+            <GiftedChat messages={messages} onSend={handleSend} user={props.route?.params} />
+        </KeyboardAvoidingView>
     </SafeAreaView>;
 };
 
