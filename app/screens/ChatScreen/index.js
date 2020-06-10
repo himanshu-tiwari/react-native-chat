@@ -8,6 +8,7 @@ import NetInfo from "@react-native-community/netinfo";
 import AppRecorder from './AppRecorder';
 import { v4 as uuidv4 } from 'uuid'
 import OverlayLoader from '../../components/OverlayLoader';
+import AppAudioPlayer from './AppAudioPlayer';
 
 const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
@@ -45,6 +46,11 @@ const ChatScreen = props => {
         [handleSend, props.route?.params],
     );
 
+    const renderMessageAudio = useCallback(
+        props => <AppAudioPlayer {...props} />,
+        [],
+    );
+
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
             <GiftedChat
@@ -53,6 +59,7 @@ const ChatScreen = props => {
                 user={props.route?.params}
                 renderActions={renderActions}
                 messageIdGenerator={uuidv4}
+                renderMessageAudio={renderMessageAudio}
             />
         </KeyboardAvoidingView>
 
