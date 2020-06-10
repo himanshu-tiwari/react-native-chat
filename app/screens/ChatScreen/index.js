@@ -40,11 +40,11 @@ const ChatScreen = props => {
     const renderActions = useCallback(
         () => <AppRecorder
             send={handleSend}
-            user={props.route?.params}
+            user={props.route?.params?.user}
             messageIdGenerator={uuidv4}
             setUploading={setUploading}
         />,
-        [handleSend, props.route?.params],
+        [handleSend, props.route?.params?.user],
     );
 
     const renderMessageAudio = useCallback(props => <AppAudioPlayer {...props} />, []);
@@ -54,7 +54,7 @@ const ChatScreen = props => {
             <GiftedChat
                 messages={messages}
                 onSend={handleSend}
-                user={props.route?.params}
+                user={props.route?.params?.user}
                 renderActions={renderActions}
                 messageIdGenerator={uuidv4}
                 renderMessageAudio={renderMessageAudio}
