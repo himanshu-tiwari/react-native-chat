@@ -56,7 +56,7 @@ const ChatScreen = props => {
     const renderMessageAudio = useCallback(props => <AppAudioPlayer {...props} />, []);
 
     return <SafeAreaView style={styles.safeAreaView}>
-        <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
+        <KeyboardAvoidingView style={styles.flex} enabled>
             <GiftedChat
                 messages={messages}
                 onSend={handleSend}
@@ -64,6 +64,7 @@ const ChatScreen = props => {
                 renderActions={renderActions}
                 messageIdGenerator={uuidv4}
                 renderMessageAudio={renderMessageAudio}
+                messagesContainerStyle={{ paddingBottom: 10 }}
             />
         </KeyboardAvoidingView>
 
