@@ -47,10 +47,7 @@ const ChatScreen = props => {
         [handleSend, props.route?.params],
     );
 
-    const renderMessageAudio = useCallback(
-        props => <AppAudioPlayer {...props} />,
-        [],
-    );
+    const renderMessageAudio = useCallback(props => <AppAudioPlayer {...props} />, []);
 
     return <SafeAreaView style={styles.safeAreaView}>
         <KeyboardAvoidingView style={styles.flex} keyboardVerticalOffset={10} enabled>
