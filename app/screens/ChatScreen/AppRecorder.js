@@ -45,12 +45,14 @@ const AppRecorder = props => {
             fileName = filePath?.split('/')?.reverse()[0];
 
             if (didSucceed && isNonEmptyString(fileName)) {
+                props.setUploading(true);
                 reference = storage().ref(fileName);
 
                 if (isObject(reference)) {
                     // uploads file
                     const status = await reference.putFile(filePath);
                     
+                    props.setUploading(false);
                     if (status?.state !== "success") {
                         showMessage({ type: "danger", message: "Could not upload the file to firebase storage!" });
                     } else {

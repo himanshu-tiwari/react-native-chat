@@ -7,11 +7,13 @@ import { showMessage } from 'react-native-flash-message';
 import NetInfo from "@react-native-community/netinfo";
 import AppRecorder from './AppRecorder';
 import { v4 as uuidv4 } from 'uuid'
+import OverlayLoader from '../../components/OverlayLoader';
 
 const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
 
     const [messages, setMessages] = useState([]);
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         get(setMessages);
@@ -53,6 +55,8 @@ const ChatScreen = props => {
                 messageIdGenerator={uuidv4}
             />
         </KeyboardAvoidingView>
+
+        { uploading && <OverlayLoader type="audio" /> }
     </SafeAreaView>;
 };
 
