@@ -98,6 +98,7 @@ export const FireContextProvider = props => {
                     text: message.text,
                     timestamp: moment().format("X"),
                     user: message.user,
+                    ...(isNonEmptyString(message.audio) ? { audio: message.audio } : {})
                 });
             });
         },
@@ -112,7 +113,12 @@ export const FireContextProvider = props => {
                 user: message.data()?.user,
                 text: message.data()?.text,
                 timestamp: moment(message.data()?.timestamp, "X").format("X"),
-                createdAt: moment(message.data()?.timestamp, "X")
+                createdAt: moment(message.data()?.timestamp, "X"),
+                ...(
+                    isNonEmptyString(message.data()?.audio)
+                        ? { audio: message.data()?.audio }
+                        : {}
+                )
             });
         },
         [],
