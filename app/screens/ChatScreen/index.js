@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, InteractionManager } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { FireContext } from '../../FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,7 +19,17 @@ const ChatScreen = props => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        get("messages", setMessages, props.route?.params?.channelId);
+        let expensiveCall;
+
+        expensiveCall = InteractionManager.runAfterInteractions(() => {
+            get("messages", setMessages, props.route?.params?.channelId);
+        });
+
+        return () => {
+            if (typeof(expensiveCall?.cancel) === "function") {
+                expensiveCall.cancel();
+            }
+        }
     }, [props.route?.params?.channelId]);
 
     const handleSend = useCallback(

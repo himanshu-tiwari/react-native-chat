@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, InteractionManager } from 'react-native';
 import AppText from '../components/AppText';
 import { FireContext } from '../FireContext';
 import { isNonEmptyArray } from '../helpers/checks';
@@ -11,7 +11,17 @@ const ChannelsScreen = props => {
     const [channels, setChannels] = useState([]);
 
     useEffect(() => {
-        get("channels", setChannels);
+        let expensiveCall;
+
+        expensiveCall = InteractionManager.runAfterInteractions(() => {
+            get("channels", setChannels);
+        });
+
+        return () => {
+            if (typeof(expensiveCall?.cancel) === "function") {
+                expensiveCall.cancel();
+            }
+        }
     }, []);
 
     const channelFilter = useCallback(
