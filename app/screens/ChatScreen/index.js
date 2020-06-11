@@ -10,7 +10,7 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid'
 import OverlayLoader from '../../components/OverlayLoader';
 import AppAudioPlayer from './AppAudioPlayer';
-import { isNonEmptyString } from '../../helpers/checks';
+import { isObject } from '../../helpers/checks';
 
 const ChatScreen = props => {
     const { get, send } = useContext(FireContext);
@@ -40,7 +40,7 @@ const ChatScreen = props => {
                         text: messages[0].text,
                         user: messages[0].user,
                         channelId: props.route?.params?.channelId,
-                        ...(isNonEmptyString(messages[0].audio) ? { audio: messages[0].audio } : {})
+                        ...(isObject(messages[0].audio) ? { audio: messages[0].audio } : {})
                     }, "messages");
                 } else {
                     showMessage({
