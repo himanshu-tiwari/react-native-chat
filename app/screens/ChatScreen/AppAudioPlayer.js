@@ -5,6 +5,7 @@ import AppBtn from '../../components/AppBtn';
 import AppText from '../../components/AppText';
 import Sound from 'react-native-sound';
 import storage from '@react-native-firebase/storage';
+import { isNonEmptyString } from '../../helpers/checks';
 
 const ControlBtn = props => <AppBtn style={styles.button} onPress={props.onPress}>
     <AppText style={styles.buttonText}>{ props.title }</AppText>
@@ -16,47 +17,57 @@ const AppAudioPlayer = props => {
     const [playing, setPlaying] = useState(false);
 
     useEffect(() => {
-        storage().ref(props.currentMessage?.audio)
-            ?.getDownloadURL()
-            ?.then(url => {
-                setSound(new Sound(url, '', error => {
-                    if (error) {
-                        showMessage({ type: "danger", message: "Failed to load the sound" });
-                        console.log(error);
-                    }
-                }))
-            }).catch(error => {
-                showMessage({
-                    type: "danger",
-                    message: "Error while getting download url for the audio file!"
+        if (isNonEmptyString(props.currentMessage?.audio?.id)) {
+            storage().ref(props.currentMessage?.audio?.id)
+                ?.getDownloadURL()
+                ?.then(url => {
+                    setSound(new Sound(url, '', error => {
+                        if (error) {
+                            showMessage({ type: "danger", message: "Failed to load the sound" });
+                            console.log(error);
+                        }
+                    }))
+                }).catch(error => {
+                    showMessage({
+                        type: "danger",
+                        message: "Error while getting download url for the audio file!"
+                    });
+    
+                    console.log(error);
                 });
-
-                console.log(error);
-            });
-    }, [props.currentMessage?.audio]);
+        }
+    }, [props.currentMessage?.audio?.id]);
 
     const play = useCallback(
         () => {
-            setPlaying(true);
-            sound.play((success) => {
-                if (!success) {
-                    showMessage({ type: "danger", message: "Playback failed due to audio decoding errors" });
-                }
-
-                setPlaying(false);
-            });
+            if (typeof(sound.play) === "function") {
+                setPlaying(true);
+                sound.play((success) => {
+                    if (!success) {
+                        showMessage({ type: "danger", message: "Playback failed due to audio decoding errors" });
+                    }
+    
+                    setPlaying(false);
+                });
+            } else {
+                showMessage({ type: "danger", message: "Unable to play the audio!" });
+            }
         },
         [sound],
     );
 
     const pause = useCallback(
         () => {
-            setPlaying(false);
-            sound.pause((success) => {
-                if (!success) {
-                    showMessage({ type: "danger", message: "Playback failed due to audio decoding errors" });
-                }
-            });
+            if (typeof(sound.pause) === "function") {
+                setPlaying(false);
+                sound.pause((success) => {
+                    if (!success) {
+                        showMessage({ type: "danger", message: "Playback failed due to audio decoding errors" });
+                    }
+                });
+            } else {
+                showMessage({ type: "danger", message: "Unable to pause the audio!" });
+            }
         },
         [sound],
     );
