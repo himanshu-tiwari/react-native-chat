@@ -24,6 +24,14 @@ const ChannelsScreen = props => {
         }
     }, []);
 
+    const goToChat = useCallback(
+        channelId => props.navigation?.navigate("Chat", {
+            channelId,
+            user: props.route?.params
+        }),
+        [],
+    );
+
     const channelFilter = useCallback(
         channel => channel?.members?.includes(props.route?.params?._id),
         [],
@@ -32,8 +40,8 @@ const ChannelsScreen = props => {
     const channelMap = useCallback(
         channel => {
             console.log({ channel: channel })
-            return <AppBtn onPress={() => {}}>
-                <AppText key={channel?._id}>{ channel?.title }</AppText>
+            return <AppBtn key={channel?._id} onPress={() => goToChat(channel?._id)}>
+                <AppText>{ channel?.title }</AppText>
             </AppBtn>;
         },
         [],
