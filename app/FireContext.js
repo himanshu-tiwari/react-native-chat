@@ -129,14 +129,21 @@ export const FireContextProvider = props => {
     );
 
     const get = useCallback(
-        (name, callback) => {
-            db.collection(name).orderBy("timestamp", "desc").onSnapshot(querySnapshot => {
-                if (name === "messages") {
-                    callback(querySnapshot.docs?.filter(messageFilter)?.map(parse));
-                } else {
-                    callback(querySnapshot.docs?.map(parse));
-                }
-            });
+        (name, callback, whereString) => {
+            if (name === "messages") {
+                db.collection(name)
+                    .where("channelId", "==", whereString)
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot(querySnapshot => {
+                        callback(querySnapshot?.docs?.filter(messageFilter)?.map(parse));
+                    });
+            } else {
+                db.collection(name)
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot(querySnapshot => {
+                        callback(querySnapshot?.docs?.map(parse));
+                    });
+            }
         },
         [db?.collection, parse],
     );
