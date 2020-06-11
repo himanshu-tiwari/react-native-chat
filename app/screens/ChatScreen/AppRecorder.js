@@ -58,7 +58,10 @@ const AppRecorder = props => {
                         props.send([{
                             _id: id,
                             text: "",
-                            audio: status?.metadata?.fullPath,
+                            audio: {
+                                id: status?.metadata?.fullPath,
+                                audioLength: currentTime
+                            },
                             user: props.user
                         }]);
                     }
