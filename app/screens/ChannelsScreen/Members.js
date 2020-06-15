@@ -2,18 +2,26 @@ import React, { useCallback, useEffect, useContext, useState } from 'react';
 import { StyleSheet, View, InteractionManager } from 'react-native';
 import { isNonEmptyArray, isNonEmptyString } from '../../helpers/checks';
 import AppText from '../../components/AppText';
-import { FireContext } from '../../FireContext';
+import { FireContext } from '../../contexts/FireContext';
 
 const Members = ({ memberIds }) => {
     const { get } = useContext(FireContext);
 
     const [members, setMembers] = useState([]);
 
+    const setNewMember = useCallback(
+        member => setMembers(previousMembers => [
+            ...previousMembers.filter(user => user?.id !== member?.id),
+            member
+        ]),
+        [setMembers]
+    );
+
     useEffect(() => {
         let expensiveCall;
 
         expensiveCall = InteractionManager.runAfterInteractions(() => {
-            get("users", setMembers, memberIds);
+            get("users", setNewMember, memberIds);
         });
 
         return () => {
@@ -21,7 +29,7 @@ const Members = ({ memberIds }) => {
                 expensiveCall.cancel();
             }
         }
-    }, [memberIds]);
+    }, [memberIds, setNewMember]);
 
     const membersFilter = useCallback(
         member => isNonEmptyString(member?.id) && isNonEmptyString(member?.name),
