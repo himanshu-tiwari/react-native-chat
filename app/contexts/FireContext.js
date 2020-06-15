@@ -1,17 +1,17 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useEffect, useState, useCallback, useContext } from 'react';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import '@react-native-firebase/firestore';
 import { showMessage } from 'react-native-flash-message';
 import moment from 'moment';
-import { firebaseConfig } from './config.json';
-import { isObject, isNonEmptyString, isNonEmptyArray } from './helpers/checks';
-
+import { firebaseConfig } from '../config.json';
+import { isObject, isNonEmptyString, isNonEmptyArray } from '../helpers/checks';
 export const FireContext = createContext();
 
 export const FireContextProvider = props => {
     const [db, setDb] = useState();
     const [uid, setUid] = useState();
+    const { removeOneSignalEvents } = useContext(NotificationContext);
 
     const init = useCallback(
         () => {
@@ -30,17 +30,9 @@ export const FireContextProvider = props => {
 
     const send = useCallback(
         (doc, name) => {
-            // firebase.firestore().collection().add().then()
             db.collection(name).add({
                 ...doc,
                 timestamp: moment().format("X")
-            }).then(data => {
-                if (isNonEmptyString(data?.id) && isObject(doc)) {
-                    console.log({
-                        id,
-                        ...doc
-                    });
-                }
             });
         },
         [db?.collection],
@@ -48,7 +40,6 @@ export const FireContextProvider = props => {
 
     const parse = useCallback(
         doc => {
-            console.log({ doc: doc.data() });
             return ({
                 _id: doc.id,
                 ...doc?.data(),
@@ -91,12 +82,14 @@ export const FireContextProvider = props => {
                     });
             } else {
                 if (isNonEmptyArray(matchCondition)) {
-                    db.collection(name)
-                        .where("id", "in", matchCondition)
-                        .orderBy("name")
-                        .onSnapshot(querySnapshot => {
-                            callback(querySnapshot?.docs?.map(parse));
-                        });
+                    matchCondition?.forEach(id => {
+                        db.collection(name)
+                            .where("id", "==", id)
+                            .orderBy("name")
+                            .onSnapshot(querySnapshot => {
+                                callback(querySnapshot?.docs?.map(parse)[0]);
+                            }); 
+                    });
                 } else {
                     db.collection(name)
                         .orderBy("name")
@@ -137,7 +130,9 @@ export const FireContextProvider = props => {
         callback => {
             firebase.auth().signOut().then(res => {
                 showMessage({ type: "success", message: "Logout successful!" });
-    
+                
+                removeOneSignalEvents();
+
                 if (typeof(callback) === "function") {
                     callback(res);
                 }
@@ -180,7 +175,7 @@ export const FireContextProvider = props => {
                 console.log(error);
             });
         },
-        [],
+        [send],
     );
 
     return <FireContext.Provider value={{ send, parse, get, off, db, uid, signIn, signOut, signUp }}>{
