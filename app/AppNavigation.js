@@ -23,9 +23,6 @@ const AppNavigation = () => {
                     backgroundColor: "#fff",
                     borderBottomWidth: 0
                 },
-                headerTitleStyle: {
-                    display: "none"
-                },
                 headerLeft: channelsHeaderLeft,
             }} />
             <Stack.Screen name="Chat" component={ChatScreen} options={{
@@ -34,9 +31,7 @@ const AppNavigation = () => {
                     backgroundColor: "#fff",
                     borderBottomWidth: 0
                 },
-                headerTitleStyle: {
-                    display: "none"
-                },
+                title: "Messages",
                 headerLeft: chatHeaderLeft,
             }} />
         </Stack.Navigator>
