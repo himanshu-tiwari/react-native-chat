@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, InteractionManager, View, Image } from 'react-native';
 import AppText from '../../components/AppText';
-import { FireContext } from '../../FireContext';
-import { isNonEmptyArray } from '../../helpers/checks';
+import { FireContext } from '../../contexts/FireContext';
+import { isNonEmptyArray, isNonEmptyString } from '../../helpers/checks';
 import AppBtn from '../../components/AppBtn';
 import Avatar from '../../components/Avatar';
 import Members from './Members';
