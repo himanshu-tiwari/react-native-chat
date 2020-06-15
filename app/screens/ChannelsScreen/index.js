@@ -7,13 +7,16 @@ import AppBtn from '../../components/AppBtn';
 import Avatar from '../../components/Avatar';
 import Members from './Members';
 import CreateChannelModal from './CreateChannelModal';
+import { NotificationContext } from '../../contexts/NotificationContext';
 
 const ChannelsScreen = props => {
     const { get } = useContext(FireContext);
+    const { configureOneSignal } = useContext(NotificationContext);
 
     const [channels, setChannels] = useState([]);
     const [users, setUsers] = useState([]);
     const [creationModalVisible, setCreationModalVisible] = useState(false);
+    const [oneSignalConfigured, setOneSignalConfigured] = useState(false);
 
     console.log({ channels, params: props.route?.params, users });
 
@@ -39,6 +42,16 @@ const ChannelsScreen = props => {
         }),
         [],
     );
+
+    useEffect(() => {
+        InteractionManager.runAfterInteractions(() => {
+            if (!oneSignalConfigured) {
+                setOneSignalConfigured(true);
+                
+                configureOneSignal(props.route?.params?._id, goToChat);
+            }
+        });
+    }, [props.route?.params?._id, oneSignalConfigured, goToChat]);
 
     const channelMap = useCallback(
         channel => <AppBtn
