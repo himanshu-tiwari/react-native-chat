@@ -75,6 +75,7 @@ const ChatScreen = props => {
                 messageIdGenerator={uuidv4}
                 renderMessageAudio={renderMessageAudio}
                 messagesContainerStyle={{ paddingBottom: 10 }}
+                renderUsernameOnMessage={true}
             />
         </KeyboardAvoidingView>
 
