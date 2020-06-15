@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     channel: {
         borderBottomColor: "#ccc",
         borderBottomWidth: 1,
-        elevation: 5,
+        // elevation: 5,
         paddingVertical: 10,
         flexDirection: "row"
     },
