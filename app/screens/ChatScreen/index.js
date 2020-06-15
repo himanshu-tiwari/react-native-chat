@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { StyleSheet, KeyboardAvoidingView, InteractionManager } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { FireContext } from '../../FireContext';
+import { FireContext } from '../../contexts/FireContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showMessage } from 'react-native-flash-message';
 import NetInfo from "@react-native-community/netinfo";

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useContext } from 'react';
 import { StyleSheet, View, Image, TextInput } from 'react-native';
-import { FireContext } from '../../FireContext';
+import { FireContext } from '../../contexts/FireContext';
 import AppBtn from '../../components/AppBtn';
 import AppText from '../../components/AppText';
 

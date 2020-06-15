@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { FireContext } from '../../FireContext';
+import { FireContext } from '../../contexts/FireContext';
 
 const HeaderLeft = props => {
     const { signOut } = useContext(FireContext);
