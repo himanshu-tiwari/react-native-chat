@@ -36,11 +36,12 @@ const ChannelsScreen = props => {
     }, [props.route?.params?._id]);
 
     const goToChat = useCallback(
-        channelId => props.navigation?.navigate("Chat", {
+        (channelId, highlightedMessage) => props.navigation?.navigate("Chat", {
             channelId,
-            user: props.route?.params
+            user: props.route?.params,
+            highlightedMessage: isNonEmptyString(highlightedMessage) ? highlightedMessage : ""
         }),
-        [],
+        [props.route?.params],
     );
 
     useEffect(() => {
