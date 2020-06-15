@@ -6,6 +6,9 @@ import { showMessage } from 'react-native-flash-message';
 import moment from 'moment';
 import { firebaseConfig } from '../config.json';
 import { isObject, isNonEmptyString, isNonEmptyArray } from '../helpers/checks';
+import { NotificationContext } from './NotificationContext';
+import Axios from 'axios';
+
 export const FireContext = createContext();
 
 export const FireContextProvider = props => {
@@ -28,11 +31,26 @@ export const FireContextProvider = props => {
         init();
     }, []);
 
+    const triggerNotification = useCallback(
+        message => {
+            console.log({ message });
+            Axios.post("https://us-central1-chat-fdc9b.cloudfunctions.net/notification", message)
+                .then(error => console.log(error))
+                .catch(error => console.log(error))
+        },
+        [],
+    )
+
     const send = useCallback(
         (doc, name) => {
             db.collection(name).add({
                 ...doc,
                 timestamp: moment().format("X")
+            }).then(data => {
+                if (name === "messages" && isNonEmptyString(data?.id) && isObject(doc)) {
+                    console.log({ doc })
+                    triggerNotification({ id: data?.id, ...doc });
+                }
             });
         },
         [db?.collection],
